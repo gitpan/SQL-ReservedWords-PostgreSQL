@@ -1,4 +1,7 @@
 Revision history for Perl extension SQL::ReservedWords::PostgreSQL
 
+0.2 2006-03-22 00:00
+    - Added reserved_by.
+
 0.1 2006-03-22 00:00
     - First release

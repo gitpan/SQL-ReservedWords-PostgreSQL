@@ -2,16 +2,16 @@ NAME
     SQL::ReservedWords::PostgreSQL - Reserved SQL words by PostgreSQL
 
 SYNOPSIS
-       if ( SQL::ReservedWords::PostgreSQL->is_reserved("user") ) {
-           die "Don't use reserved words in column names!";
+       if ( SQL::ReservedWords::PostgreSQL->is_reserved( $word ) ) {
+           die "$word is a reserved PostgreSQL word!";
        }
 
        # or
 
        use SQL::ReservedWords::PostgreSQL 'is_reserved';
 
-       if ( is_reserved("group") ) {
-           die "Don't use reserved words in column names!";
+       if ( is_reserved( $word ) ) {
+           die "$word is a reserved PostgreSQL word!";
        }
 
 DESCRIPTION
@@ -30,6 +30,9 @@ METHODS
         Returns a boolean indicating if $word is reserved by either
         PostgreSQL 8.0 or 8.1.
 
+    reserved_by( $word )
+        Returns a list with PostgreSQL versions that reserves $word.
+
     words
         Returns a list with all reserved words.
 
@@ -39,6 +42,7 @@ EXPORTS
     is_reserved
     is_reserved_by_postgresql7
     is_reserved_by_postgresql8
+    reserved_by
     words
 
 SEE ALSO

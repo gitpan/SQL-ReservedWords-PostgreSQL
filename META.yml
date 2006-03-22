@@ -1,6 +1,6 @@
 ---
 name: SQL-ReservedWords-PostgreSQL
-version: 0.1
+version: 0.2
 author:
   - 'Christian Hansen C<ch@ngmedia.com>'
 abstract: Reserved SQL words by PostgreSQL
@@ -12,5 +12,5 @@ build_requires:
 provides:
   SQL::ReservedWords::PostgreSQL:
     file: lib/SQL/ReservedWords/PostgreSQL.pm
-    version: 0.1
+    version: 0.2
 generated_by: Module::Build version 0.2611

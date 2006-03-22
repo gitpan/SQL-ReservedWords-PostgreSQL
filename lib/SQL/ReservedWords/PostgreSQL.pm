@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use vars '$VERSION';
 
-$VERSION = 0.1;
+$VERSION = 0.2;
 
 use constant POSTGRESQL73 => 0x01;
 use constant POSTGRESQL74 => 0x02;
@@ -18,6 +18,7 @@ use constant POSTGRESQL81 => 0x08;
         is_reserved
         is_reserved_by_postgresql7
         is_reserved_by_postgresql8
+        reserved_by
         words
     ];
 
@@ -121,10 +122,6 @@ use constant POSTGRESQL81 => 0x08;
         WHERE               => POSTGRESQL73 | POSTGRESQL74 | POSTGRESQL80 | POSTGRESQL81,
     );
 
-    sub words {
-        return sort keys %WORDS;
-    }
-
     sub is_reserved {
         return $WORDS{ uc pop } || 0;
     }
@@ -138,6 +135,22 @@ use constant POSTGRESQL81 => 0x08;
         my $flags = &is_reserved;
         return $flags & POSTGRESQL80 || $flags & POSTGRESQL81;
     }
+
+    sub reserved_by {
+        my $flags       = &is_reserved;
+        my @reserved_by = ();
+
+        push @reserved_by, 'PostgreSQL 7.3' if $flags & POSTGRESQL73;
+        push @reserved_by, 'PostgreSQL 7.4' if $flags & POSTGRESQL74;
+        push @reserved_by, 'PostgreSQL 8.0' if $flags & POSTGRESQL80;
+        push @reserved_by, 'PostgreSQL 8.1' if $flags & POSTGRESQL81;
+
+        return @reserved_by;
+    }
+
+    sub words {
+        return sort keys %WORDS;
+    }
 }
 
 1;
@@ -150,16 +163,16 @@ SQL::ReservedWords::PostgreSQL - Reserved SQL words by PostgreSQL
 
 =head1 SYNOPSIS
 
-   if ( SQL::ReservedWords::PostgreSQL->is_reserved("user") ) {
-       die "Don't use reserved words in column names!";
+   if ( SQL::ReservedWords::PostgreSQL->is_reserved( $word ) ) {
+       die "$word is a reserved PostgreSQL word!";
    }
 
    # or
 
    use SQL::ReservedWords::PostgreSQL 'is_reserved';
 
-   if ( is_reserved("group") ) {
-       die "Don't use reserved words in column names!";
+   if ( is_reserved( $word ) ) {
+       die "$word is a reserved PostgreSQL word!";
    }
 
 =head1 DESCRIPTION
@@ -183,6 +196,10 @@ Returns a boolean indicating if C<$word> is reserved by either PostgreSQL 7.3 or
 
 Returns a boolean indicating if C<$word> is reserved by either PostgreSQL 8.0 or 8.1.
 
+=item reserved_by( $word )
+
+Returns a list with PostgreSQL versions that reserves C<$word>.
+
 =item words
 
 Returns a list with all reserved words.
@@ -200,6 +217,8 @@ Nothing by default. Following subroutines can be exported:
 =item is_reserved_by_postgresql7
 
 =item is_reserved_by_postgresql8
+
+=item reserved_by
 
 =item words
 

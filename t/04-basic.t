@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More;
 
-plan tests => 30;
+plan tests => 36;
 
 use_ok( 'SQL::ReservedWords::PostgreSQL' );
 
@@ -13,6 +13,7 @@ my @methods = qw[
     is_reserved
     is_reserved_by_postgresql7
     is_reserved_by_postgresql8
+    reserved_by
     words
 ];
 
@@ -37,6 +38,22 @@ ok ! SQL::ReservedWords::PostgreSQL->is_reserved('bogus'),                     '
 ok ! SQL::ReservedWords::PostgreSQL->is_reserved_by_postgresql7('bogus'),      'BOGUS is not reserved by PostgreSQL 7';
 ok ! SQL::ReservedWords::PostgreSQL->is_reserved_by_postgresql8('bougus'),     'BOGUS is not reserved by PostgreSQL 8';
 ok ! SQL::ReservedWords::PostgreSQL->is_reserved(undef),                       'undef is not reserved';
+
+is_deeply [ SQL::ReservedWords::PostgreSQL->reserved_by('localtime')               ],
+          [ 'PostgreSQL 7.3', 'PostgreSQL 7.4', 'PostgreSQL 8.0', 'PostgreSQL 8.1' ],
+          'Got right reserved by for LOCALTIME';
+
+is_deeply [ SQL::ReservedWords::PostgreSQL->reserved_by('symmetric')               ],
+          [ 'PostgreSQL 8.1'                                                       ],
+          'Got right reserved by for SYMMETRIC';
+
+is_deeply [ SQL::ReservedWords::PostgreSQL->reserved_by('array')                   ],
+          [ 'PostgreSQL 7.4', 'PostgreSQL 8.0', 'PostgreSQL 8.1'                   ],
+          'Got right reserved by for ARRAY';
+
+is_deeply [ SQL::ReservedWords::PostgreSQL->reserved_by('bogus')                   ],
+          [                                                                        ],
+          'Got right reserved by for BOGUS';
 
 use_ok 'SQL::ReservedWords::PostgreSQL', @methods;
 
