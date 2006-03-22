@@ -1,0 +1,59 @@
+NAME
+    SQL::ReservedWords::PostgreSQL - Reserved SQL words by PostgreSQL
+
+SYNOPSIS
+       if ( SQL::ReservedWords::PostgreSQL->is_reserved("user") ) {
+           die "Don't use reserved words in column names!";
+       }
+
+       # or
+
+       use SQL::ReservedWords::PostgreSQL 'is_reserved';
+
+       if ( is_reserved("group") ) {
+           die "Don't use reserved words in column names!";
+       }
+
+DESCRIPTION
+    Determine if words are reserved by PostgreSQL.
+
+METHODS
+    is_reserved( $word )
+        Returns a boolean indicating if $word is reserved by either
+        PostgreSQL 7.3, 7.4, 8.0 or 8.1.
+
+    is_reserved_by_postgresql7( $word )
+        Returns a boolean indicating if $word is reserved by either
+        PostgreSQL 7.3 or 7.4.
+
+    is_reserved_by_postgresql8( $word )
+        Returns a boolean indicating if $word is reserved by either
+        PostgreSQL 8.0 or 8.1.
+
+    words
+        Returns a list with all reserved words.
+
+EXPORTS
+    Nothing by default. Following subroutines can be exported:
+
+    is_reserved
+    is_reserved_by_postgresql7
+    is_reserved_by_postgresql8
+    words
+
+SEE ALSO
+    <http://www.postgresql.org/docs/7.3/static/sql-keywords-appendix.html>
+
+    <http://www.postgresql.org/docs/7.4/static/sql-keywords-appendix.html>
+
+    <http://www.postgresql.org/docs/8.0/static/sql-keywords-appendix.html>
+
+    <http://www.postgresql.org/docs/8.1/static/sql-keywords-appendix.html>
+
+AUTHOR
+    Christian Hansen "ch@ngmedia.com"
+
+COPYRIGHT
+    This program is free software, you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
